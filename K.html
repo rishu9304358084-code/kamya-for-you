@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Kamya ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Poppins:wght@300;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #ff8fa3;
+            --secondary: #fff0f3;
+            --accent: #c9184a;
+            --text: #590d22;
+        }
+
+        body {
+            background: linear-gradient(135deg, #fff0f3 0%, #ffccd5 100%);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* Floating Background Hearts */
+        .bg-hearts {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .bg-heart {
+            position: absolute;
+            bottom: -100px;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 2rem;
+            animation: floatUp 15s linear infinite;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            100% { transform: translateY(-120vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* Envelope Container */
+        .wrapper {
+            position: relative;
+            z-index: 10;
+            cursor: pointer;
+        }
+
+        .envelope-container {
+            position: relative;
+            width: 320px;
+            height: 220px;
+            background: #ffb3c1;
+            border-radius: 10px;
+            box-shadow: 0 15px 35px rgba(164, 19, 60, 0.2);
+            transition: transform 0.5s ease;
+        }
+
+        .wrapper:hover .envelope-container {
+            transform: translateY(-5px);
+        }
+
+        /* Flaps */
+        .flap {
+            position: absolute;
+            width: 0;
+            height: 0;
+            z-index: 5;
+        }
+
+        .flap.bottom {
+            bottom: 0;
+            border-left: 160px solid transparent;
+            border-right: 160px solid transparent;
+            border-bottom: 110px solid #ff8fa3;
+            border-radius: 0 0 10px 10px;
+        }
+
+        .flap.left {
+            left: 0;
+            border-top: 110px solid transparent;
+            border-bottom: 110px solid transparent;
+            border-left: 160px solid #ff99ac;
+            border-radius: 10px 0 0 10px;
+            top: 0;
+        }
+
+        .flap.right {
+            right: 0;
+            border-top: 110px solid transparent;
+            border-bottom: 110px solid transparent;
+            border-right: 160px solid #ff99ac;
+            border-radius: 0 10px 10px 0;
+            top: 0;
+        }
+
+        .flap.top {
+            top: 0;
+            left: 0;
+            border-left: 160px solid transparent;
+            border-right: 160px solid transparent;
+            border-top: 120px solid #ff758f;
+            transform-origin: top;
+            transition: transform 0.6s 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 6;
+            border-radius: 10px 10px 0 0;
+        }
+
+        /* Seal */
+        .seal {
+            position: absolute;
+            bottom: 90px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 35px;
+            height: 35px;
+            background: #c9184a;
+            border-radius: 50%;
+            z-index: 7;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+            transition: opacity 0.4s;
+        }
+
+        /* The Letter Card */
+        .card {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 280px;
+            height: 190px; /* Hidden initially */
+            background: white;
+            border-radius: 5px;
+            transition: bottom 0.8s 0.6s cubic-bezier(0.4, 0, 0.2, 1), height 0.8s 0.6s;
+            z-index: 4;
+            padding: 20px;
+            box-sizing: border-box;
+            box-shadow: 0 -5px 15px rgba(0,0,0,0.05);
+            text-align: center;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .card-content {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s 1.2s;
+            height: 100%;
+            overflow-y: auto; /* Allow scrolling if text is long */
+        }
+        
+        /* Scrollbar hiding for neatness */
+        .card-content::-webkit-scrollbar { width: 0; }
+
+        .card h1 {
+            font-family: 'Dancing Script', cursive;
+            color: var(--accent);
+            margin: 0 0 10px 0;
+            font-size: 24px;
+        }
+
+        .card p {
+            font-size: 13px;
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .highlight {
+            color: var(--accent);
+            font-weight: 500;
+        }
+
+        .tap-instruction {
+            position: absolute;
+            bottom: -40px;
+            width: 100%;
+            text-align: center;
+            color: var(--accent);
+            font-size: 14px;
+            opacity: 0.8;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        /* Animation States */
+        .wrapper.open .flap.top {
+            transform: rotateX(180deg);
+            z-index: 1;
+        }
+
+        .wrapper.open .seal {
+            opacity: 0;
+        }
+
+        .wrapper.open .card {
+            bottom: 100px; /* Slides UP */
+            height: 380px; /* Expands */
+            z-index: 11; /* Comes completely in front */
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .wrapper.open .card-content {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .wrapper.open .tap-instruction {
+            display: none;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="bg-hearts" id="heartsContainer"></div>
+
+    <div class="wrapper" onclick="openLetter()">
+        <div class="envelope-container">
+            <div class="flap left"></div>
+            <div class="flap right"></div>
+            <div class="flap bottom"></div>
+            <div class="card">
+                <div class="card-content">
+                    <h1>Happy Birthday Jaan ❤️</h1>
+                    <p>
+                        My dearest <strong>Kamya</strong>,<br><br>
+                        Happy Birthday! 🎉<br>
+                        Ye din mere liye utna hi special hai jitni ki tum. mai sach me tumse bohot pyaar karta hu kammu.
+                    </p>
+                    <p>
+                        I am genuinely sorry for everything. Maine tumhe hurt kiya, jabki tum meri <span class="highlight">first priority</span> ho aur hamesha rahogi. 
+                    </p>
+                    <p>
+                        Aaj ke din,maaf kar do baby 8am relly sorry for everything. You are the most beautiful part of my life.
+                    </p>
+                    <p style="margin-top: 15px; font-weight: bold; color: #c9184a;">
+                        I Love You So Much.<br>
+                        - Tera Rishu
+                    </p>
+                </div>
+            </div>
+            <div class="flap top"></div>
+            <div class="seal">K</div> </div>
+        <div class="tap-instruction">Tap to Open</div>
+    </div>
+
+    <audio id="bgMusic" loop>
+        <source src="https://cdn.pixabay.com/audio/2022/03/10/audio_ad2bfbd89b.mp3" type="audio/mp3">
+    </audio>
+
+    <script>
+        // Generate floating hearts
+        const heartsContainer = document.getElementById('heartsContainer');
+        const heartSymbols = ['❤', '💖', '✨', '🌸'];
+        
+        for(let i=0; i<20; i++) {
+            const heart = document.createElement('div');
+            heart.classList.add('bg-heart');
+            heart.innerText = heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = (Math.random() * 5 + 10) + 's';
+            heart.style.animationDelay = (Math.random() * 5) + 's';
+            heartsContainer.appendChild(heart);
+        }
+
+        function openLetter() {
+            const wrapper = document.querySelector('.wrapper');
+            const music = document.getElementById('bgMusic');
+
+            if (!wrapper.classList.contains('open')) {
+                wrapper.classList.add('open');
+                
+                // Very soft volume
+                music.volume = 0.3; 
+                music.play().catch(e => console.log("Click interaction required for audio"));
+            }
+        }
+    </script>
+</body>
+</html>
